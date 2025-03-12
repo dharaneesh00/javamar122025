@@ -1,9 +1,10 @@
 class Demo {
     static public void main(String[] args) {
-        System.out.println("Door No: D089\n" +
-                "Street: St. Louis Street\n" +
-                "City: Springfield\n" +
-                "ZIP Code: 62729");
+       int principal=5000;
+       int rateofintrest=10;
+       int time=5;
+       int SimpleInterest = (principal*rateofintrest*time)/100;
+        System.out.println(SimpleInterest);
 
     }
 }
