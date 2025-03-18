@@ -1,10 +1,9 @@
-class factorial{
-    public static void main(String[] args){
-        int num=7;
-        long fact=1;
-        for (int i = 1; i <= num; i++)
-            fact=fact*i;
+class Calculator {
 
-        System.out.println(fact);
+    public double findAverage(double num1, double num2, double num3) {
+        double average = (num1 + num2 + num3) / 3;
+        return Math.round(average * 100.0) / 100.0;
     }
-    }
+}
+
+
