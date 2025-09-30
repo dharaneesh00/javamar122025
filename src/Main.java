@@ -1,161 +1,157 @@
-class SLL {
+class CLL {
     Node head;
-
     class Node {
         int data;
         Node next;
 
         Node(int data) {
             this.data = data;
-            next = null;
         }
     }
 
-    // Insert at beginning
-    public void insertAtBeginning(int data) {
-        Node newNode = new Node(data);
-        newNode.next = head;
-        head = newNode;
-    }
-
-    // Insert at end
+    // Insert node end
     public void insertAtEnd(int data) {
         Node newNode = new Node(data);
         if (head == null) {
             head = newNode;
-            return;
+            head.next = head;
+        } else {
+            Node temp = head;
+            while (temp.next != head) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+            newNode.next = head;
         }
-        Node temp = head;
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-        temp.next = newNode;
     }
 
-    // Insert at middle (by position)
-    public void insertAtMiddle(int data, int position) {
-        if (position == 1) {
+    // Insert  beginning
+    public void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+        } else {
+            Node temp = head;
+            while (temp.next != head) {
+                temp = temp.next;
+            }
+            newNode.next = head;
+            temp.next = newNode;
+            head = newNode;
+        }
+    }
+
+    // Insert node at middle
+    public void insertAtMiddle(int data, int pos) {
+        if (head == null || pos <= 1) {
             insertAtBeginning(data);
             return;
         }
         Node newNode = new Node(data);
         Node temp = head;
-        for (int i = 0; i < position - 1 && temp != null; i++) {
+        for (int i = 1; i < pos - 1 && temp.next != head; i++) {
             temp = temp.next;
-        }
-        if (temp == null) {
-            System.out.println("Position out of range.");
-            return;
         }
         newNode.next = temp.next;
         temp.next = newNode;
     }
 
-    // Delete at beginning
-    public void deleteAtBeginning() {
-        if (head == null) {
-            System.out.println("List is empty.");
-            return;
-        }
-        head = head.next;
-    }
-
-    // Delete at end
+    // Delete node end
     public void deleteAtEnd() {
-        if (head == null) {
-            System.out.println("List is empty.");
-            return;
-        }
-        if (head.next == null) {
+        if (head == null) return;
+        if (head.next == head) {
             head = null;
             return;
         }
         Node temp = head;
-        while (temp.next.next != null) {
+        while (temp.next.next != head) {
             temp = temp.next;
         }
-        temp.next = null;
+        temp.next = head;
     }
 
-    // Delete at middle (by position)
-    public void deleteAtMiddle(int position) {
-        if (head == null) {
-            System.out.println("List is empty.");
+    // Delete node start
+    public void deleteAtBeginning() {
+        if (head == null) return;
+        if (head.next == head) {
+            head = null;
             return;
         }
-        if (position == 1) {
+        Node temp = head;
+        while (temp.next != head) {
+            temp = temp.next;
+        }
+        temp.next = head.next;
+        head = head.next;
+    }
+
+    // Delete middle
+    public void deleteAtMiddle(int pos) {
+        if (head == null || pos <= 1) {
             deleteAtBeginning();
             return;
         }
         Node temp = head;
-        for (int i = 1; i < position - 1 && temp.next != null; i++) {
+        for (int i = 1; i < pos - 1 && temp.next != head; i++) {
             temp = temp.next;
         }
-        if (temp.next == null) {
-            System.out.println("Position out of range.");
+        if (temp.next == head) {
+            deleteAtEnd();
+        } else {
+            temp.next = temp.next.next;
+        }
+    }
+
+
+
+    // Display
+    public void display() {
+        if (head == null) {
+            System.out.println("List is empty");
             return;
         }
-        if(temp.next!=null){
-            temp.next.prev=temp.prev;
-        }
-        temp.next = temp.next.next;
-    }
-
-    // Search
-    public boolean search(int data) {
         Node temp = head;
-        while (temp != null) {
-            if (temp.data == data) {
-                return true;
-
-                temp = temp.next;
-            }
-            return false;
-        }
-
-        // Display
-        public void display() {
-            if (head == null) {
-                System.out.println("List is empty.");
-                return;
-            }
-            Node temp = head;
-            while (temp != null) {
-                System.out.print(temp.data + " ");
-                temp = temp.next;
-            }
-            System.out.println();
-        }
+        do {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        } while (temp != head);
+        System.out.println();
     }
+}
 
-    public class Main {
-        public static void main(String[] args) {
-            SLL list = new SLL();
 
-            // Insertions
-            list.insertAtEnd(10);
-            list.insertAtEnd(20);
-            list.insertAtEnd(30);
-            list.display();
+public class Main {
+    public static void main(String[] args) {
+        CLL list = new CLL();
 
-            list.insertAtBeginning(5);
-            list.display();
+        // Insertion at end
+        list.insertAtEnd(6);
+        list.display();
+        list.insertAtEnd(8);
+        list.insertAtEnd(1);
+        list.insertAtEnd(7);
+        list.display();
 
-            list.insertAtMiddle(15, 3);
-            list.display();
+        // Insertion at beginning
+        list.insertAtBeginning(0);
+        list.display();
 
-            // Deletions
-            list.deleteAtBeginning();
-            list.display();
+        // Insertion at middle
+        list.insertAtMiddle(5, 5);
+        list.insertAtMiddle(4, 3);
+        list.display();
+        list.insertAtMiddle(7, 2);
+        list.display();
 
-            list.deleteAtEnd();
-            list.display();
+        // Deletion operations
+        list.deleteAtEnd();
+        list.display();
+        list.deleteAtBeginning();
+        list.display();
+        list.deleteAtMiddle(2);
+        list.display();
 
-            list.deleteAtMiddle(2);
-            list.display();
 
-            // Searching
-            System.out.println("Searching 20: " + list.search(20));
-            System.out.println("Searching 100: " + list.search(100));
-        }
     }
+}
